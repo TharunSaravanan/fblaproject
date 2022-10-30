@@ -42,4 +42,10 @@ public class StudentController {
         List<Student> result = studentRepository.findAll();
         return result;
     }
+    
+    @GetMapping("/studentsInGrade")
+    public List<Student> getStudentsInGrade(int grade) {
+        List<Student> result = studentRepository.getStudents(grade);
+        return result;
+    }
 }

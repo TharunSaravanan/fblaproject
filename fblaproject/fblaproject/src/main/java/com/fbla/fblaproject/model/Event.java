@@ -23,6 +23,15 @@ public class Event {
     private String name;
     private String description;
     private LocalDateTime time;
+    private int points;
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
     public Event() {
     }
