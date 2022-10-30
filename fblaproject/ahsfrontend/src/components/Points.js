@@ -10,14 +10,14 @@ import Checkbox from '@mui/material/Checkbox';
 import Student from './Student';
 
 const Points = () => {
-    const [check, setCheck] = useState([true, false]);
+    const [check, setCheck] = useState([]);
     const paperStyle = { padding: '50px 20px', width: 600, margin: "20px auto" }
     const [completedEvent, setcompletedEvent] = React.useState('');
     const [maxPoints, setmaxPoints] = React.useState('');
     const [grade, setGrade] = React.useState('');
     const [completedEvents, setcompletedEvents] = useState([]);
     const [studentsInGrade, setStudentsInGrade] = useState([]);
-    const [studentsAttended, setstudentsAttended] = useState([]);
+
 
 
     useEffect(() => {
@@ -31,7 +31,7 @@ const Points = () => {
 
     useEffect(() => {
         console.log(grade);
-    }, [completedEvent], [maxPoints], [grade], [studentsAttended])
+    }, [completedEvent], [maxPoints], [grade])
 
 
     const handleCheckboxChange = (studentid) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,25 +40,6 @@ const Points = () => {
         const index = studentsInGrade.findIndex(s => s.id == studentid);
         check[index] = checked;
         setCheck([...check]);
-
-        let studentIndex = studentsAttended.indexOf(studentid);
-       
-        var existAlready = false;
-        studentsAttended.map(s => {
-            if (s == studentid)
-                existAlready = true;
-        });
-
-
-        if (event.target.checked && !existAlready) {
-
-            setstudentsAttended(current => ([...current, studentid]));
-            return;
-        }
-
-        if (!event.target.checked) {
-            setstudentsAttended(studentsAttended.filter(s => s.id == studentid));
-        }
     };
 
     const handleEventChange = (event: SelectChangeEvent) => {
@@ -68,9 +49,10 @@ const Points = () => {
 
     const handleGradeChange = (event: SelectChangeEvent) => {
 
-        //clear out all items im the students attended array
-        setstudentsAttended(studentsAttended.filter(s => s.id > -1));
-
+        //clear out the checkbox array
+        setCheck(check.filter(s => {
+            console.log(s);
+        }));
         setGrade(event.target.value);
 
         console.log("http://localhost:8080/student/studentsInGrade?grade=" + grade);
@@ -161,7 +143,7 @@ const Points = () => {
                                     <FormGroup aria-label="Temas" row={true} key={student.id}>
                                         <Paper elevation={6} style={{ margin: "10px", padding: "15px", textAlign: "left" }} key={student.id}>
                                             Id:{student.id}<br />
-                                            Name:{student.name}
+                                            Name:{student.name} <br />
 
                                             <FormControlLabel
                                                 key={student}
